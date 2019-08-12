@@ -44,7 +44,8 @@ export default class CalendarPicker extends Component {
     onDateChange: () => {
       console.log("onDateChange() not provided");
     },
-    enableDateChange: true
+    enableDateChange: true,
+    badgeList: []
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -263,20 +264,15 @@ export default class CalendarPicker extends Component {
       enableDateChange
     } = this.props;
 
-    let _disabledDates = [];
+    let disabledDatesTime = [];
 
-    if (disabledDates) {
-      if (Array.isArray(disabledDates)) {
-        // Convert input date into timestamp
-        disabledDates.map(date => {
-          let thisDate = moment(date);
-          thisDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-          _disabledDates.push(thisDate.valueOf());
-        });
-      }
-      else if (disabledDates instanceof Function) {
-        _disabledDates = disabledDates;
-      }
+    // Convert input date into timestamp
+    if (disabledDates && Array.isArray(disabledDates)) {
+      disabledDates.map(date => {
+        let thisDate = moment(date);
+        thisDate.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+        disabledDatesTime.push(thisDate.valueOf());
+      });
     }
 
     let minRangeDurationTime = [];
@@ -343,7 +339,7 @@ export default class CalendarPicker extends Component {
             year={currentYear}
             styles={styles}
             onPressDay={this.handleOnPressDay}
-            disabledDates={_disabledDates}
+            disabledDates={disabledDatesTime}
             minRangeDuration={minRangeDurationTime}
             maxRangeDuration={maxRangeDurationTime}
             startFromMonday={startFromMonday}
@@ -359,6 +355,9 @@ export default class CalendarPicker extends Component {
             selectedRangeStyle={selectedRangeStyle}
             selectedRangeEndStyle={selectedRangeEndStyle}
             customDatesStyles={customDatesStyles}
+            badgeList={this.props.badgeList}
+            bagdeStyle={this.props.bagdeStyle}
+            bagdeTextStyle={this.props.bagdeTextStyle}
           />
         </View>
       </Swiper>

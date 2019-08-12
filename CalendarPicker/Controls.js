@@ -11,7 +11,7 @@ export default function Controls({ styles, textStyles, label, onPressControl }) 
       onPress={() => onPressControl()}
     >
       <Text style={[styles, textStyles]}>
-        { label }
+        {label}
       </Text>
     </TouchableOpacity>
   );

@@ -46,7 +46,7 @@ export default class Swiper extends Component {
   }
 
   _gestureIsClick(gestureState) {
-    return Math.abs(gestureState.dx) < 5  && Math.abs(gestureState.dy) < 5;
+    return Math.abs(gestureState.dx) < 5 && Math.abs(gestureState.dy) < 5;
   }
 
   _handlePanResponderEnd(evt, gestureState) {
@@ -55,8 +55,8 @@ export default class Swiper extends Component {
   }
 
   _triggerSwipeHandlers(swipeDirection, gestureState) {
-    const {onSwipe, onSwipeUp, onSwipeDown, onSwipeLeft, onSwipeRight} = this.props;
-    const {SWIPE_LEFT, SWIPE_RIGHT, SWIPE_UP, SWIPE_DOWN} = swipeDirections;
+    const { onSwipe, onSwipeUp, onSwipeDown, onSwipeLeft, onSwipeRight } = this.props;
+    const { SWIPE_LEFT, SWIPE_RIGHT, SWIPE_UP, SWIPE_DOWN } = swipeDirections;
     onSwipe && onSwipe(swipeDirection, gestureState);
     switch (swipeDirection) {
       case SWIPE_LEFT:
@@ -75,8 +75,8 @@ export default class Swiper extends Component {
   }
 
   _getSwipeDirection(gestureState) {
-    const {SWIPE_LEFT, SWIPE_RIGHT, SWIPE_UP, SWIPE_DOWN} = swipeDirections;
-    const {dx, dy} = gestureState;
+    const { SWIPE_LEFT, SWIPE_RIGHT, SWIPE_UP, SWIPE_DOWN } = swipeDirections;
+    const { dx, dy } = gestureState;
     if (this._isValidHorizontalSwipe(gestureState)) {
       return (dx > 0)
         ? SWIPE_RIGHT
@@ -90,18 +90,18 @@ export default class Swiper extends Component {
   }
 
   _isValidHorizontalSwipe(gestureState) {
-    const {vx, dy} = gestureState;
-    const {velocityThreshold, directionalOffsetThreshold} = this.swipeConfig;
+    const { vx, dy } = gestureState;
+    const { velocityThreshold, directionalOffsetThreshold } = this.swipeConfig;
     return isValidSwipe(vx, velocityThreshold, dy, directionalOffsetThreshold);
   }
 
   _isValidVerticalSwipe(gestureState) {
-    const {vy, dx} = gestureState;
-    const {velocityThreshold, directionalOffsetThreshold} = this.swipeConfig;
+    const { vy, dx } = gestureState;
+    const { velocityThreshold, directionalOffsetThreshold } = this.swipeConfig;
     return isValidSwipe(vy, velocityThreshold, dx, directionalOffsetThreshold);
   }
 
   render() {
-    return (<View {...this.props} {...this._panResponder.panHandlers}/>);
+    return (<View {...this.props} {...this._panResponder.panHandlers} />);
   }
 };

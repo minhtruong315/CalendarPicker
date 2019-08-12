@@ -35,7 +35,10 @@ export default function DaysGridView(props) {
     disabledDates,
     minRangeDuration,
     maxRangeDuration,
-    enableDateChange
+    enableDateChange,
+    badgeList,
+    bagdeStyle,
+    bagdeTextStyle
   } = props;
 
   const today = moment();
@@ -53,13 +56,13 @@ export default function DaysGridView(props) {
   const firstWeekDay = firstDayOfMonth.isoWeekday();
 
   // fill up an array of days with the amount of days in the current month
-  const days = Array.apply(null, {length: totalDays}).map(Number.call, Number);
+  const days = Array.apply(null, { length: totalDays }).map(Number.call, Number);
 
   // 7 days in a week.
-  const dayArray = [ 0, 1, 2, 3, 4, 5, 6 ];
+  const dayArray = [0, 1, 2, 3, 4, 5, 6];
 
   // There can be 4 to 6 rows of weeks in a month.
-  const weekArray = [ 0, 1, 2, 3, 4, 5 ];
+  const weekArray = [0, 1, 2, 3, 4, 5];
 
   // Get the starting index, based upon whether we are using monday or sunday as first day.
   const startIndex = (startFromMonday ? firstWeekDay - 1 : firstWeekDay) % 7;
@@ -70,6 +73,8 @@ export default function DaysGridView(props) {
         if (dayIndex >= startIndex) {
           if (days.length > 0) {
             const day = days.shift() + 1;
+            const item = badgeList.find((o) => moment(o.date).isSame(moment({ year, month, day }), "days"))
+
             return (
               <Day
                 key={day}
@@ -94,6 +99,9 @@ export default function DaysGridView(props) {
                 selectedRangeEndStyle={selectedRangeEndStyle}
                 customDatesStyles={customDatesStyles}
                 enableDateChange={enableDateChange}
+                badge={item ? item.value : 0}
+                bagdeStyle={bagdeStyle}
+                bagdeTextStyle={bagdeTextStyle}
               />
             );
           }
@@ -108,6 +116,7 @@ export default function DaysGridView(props) {
       } else {
         if (days.length > 0) {
           const day = days.shift() + 1;
+          const item = badgeList.find((o) => moment(o.date).isSame(moment({ year, month, day }), "days"))
           return (
             <Day
               key={day}
@@ -132,6 +141,9 @@ export default function DaysGridView(props) {
               selectedRangeEndStyle={selectedRangeEndStyle}
               customDatesStyles={customDatesStyles}
               enableDateChange={enableDateChange}
+              badge={item ? item.value : 0}
+              bagdeStyle={bagdeStyle}
+              bagdeTextStyle={bagdeTextStyle}
             />
           );
         }
@@ -141,11 +153,11 @@ export default function DaysGridView(props) {
 
   return (
     <View style={styles.daysWrapper}>
-      { weekArray.map(weekIndexOfMonth => (
-          <View key={weekIndexOfMonth} style={styles.weekRow}>
-            { generateDatesForWeek(weekIndexOfMonth) }
-          </View>
-        ))
+      {weekArray.map(weekIndexOfMonth => (
+        <View key={weekIndexOfMonth} style={styles.weekRow}>
+          {generateDatesForWeek(weekIndexOfMonth)}
+        </View>
+      ))
       }
     </View>
   );
@@ -172,7 +184,7 @@ DaysGridView.propTypes = {
     style: ViewPropTypes.style,
     textStyle: Text.propTypes.style,
   })),
-  disabledDates: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
+  disabledDates: PropTypes.array,
   minRangeDuration: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
   maxRangeDuration: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 }
